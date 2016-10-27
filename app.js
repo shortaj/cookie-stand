@@ -27,183 +27,69 @@ These numbers are simply Pat's estimates for now, but eventually, once there has
 // var liHTML = document.createElement('li');
 //
 var hours = ['6am', '7am', '8am', '9am', '10am', '11am', '12pm', '1pm', '2pm', '3pm', '4pm', '5pm', '6pm', '7pm', '8pm'];
+var table = document.createElement('table');
+var tr = document.createElement('tr');
+// var td = document.createElement('td');
+function tableCreator () {
+  document.body.appendChild(table);
+  table.appendChild(tr);
+  var td = document.createElement('td');
+  td.innerText = ' ';
+  tr.appendChild(td);
+  for (var i = 0; i < hours.length; i++) {
+    td = document.createElement('td')
+    td.innerText = hours[i];
+    tr.appendChild(td);
+  }
+  td = document.createElement('td');
+  td.innerText = 'Total Sales';
+  tr.appendChild(td);
+}
+tableCreator();
+function Store(name, minCust, maxCust, avgCookies) {
+  this.name= name;
+  this.minCust= minCust;
+  this.maxCust= maxCust;
+  this.avgCookies= avgCookies;
+  this.sales= [];
+  this.calculator= function(i){
+    this.sales[i]= Math.floor((Math.random() * (this.maxCust - this.minCust) + this.minCust) * this.avgCookies);
+    return this.sales[i];
+  };
+  this.renderHTML= function() {
+    var tr = document.createElement('tr');
+    var td = document.createElement('td');
+    td.innerText = this.name;
+    tr.appendChild(td);
+    for (var i = 0; i <= hours.length; i++) {
+      td = document.createElement('td');
+      td.innerText = this.calculator(i);
+      tr.appendChild(td);
+    }
+    var totalSales = 0;
+    for (i = 0; i < this.sales.length; i++) {
+      totalSales += this.sales[i];
+    }
+    td.innerText = totalSales + ' cookies';
+    tr.appendChild(td);
+    table.appendChild(tr);
+  }
+  this.calculator();
+  this.renderHTML();
+}
+var firstAndPike = new Store('1st and Pike', 23, 65, 6.3);
+var seaTac = new Store('SeaTac Airport', 3, 24, 1.2);
+var seattleCenter = new Store('Seattle Center', 11, 38, 3.7);
+var capitolHill = new Store('Capitol Hill', 20, 38, 2.3);
+var alki = new Store('Alki', 2, 16, 4.6);
 
-var firstAndPike = {
-  name: '1st and Pike',
-  minCust: 23,
-  maxCust: 65,
-  avgCookies: 6.3,
-  sales: [],
-  calculator: function(i){
-    this.sales[i]= Math.floor((Math.random() * (this.maxCust - this.minCust) + this.minCust) * this.avgCookies);
-    return this.sales[i];
-  },
-  renderHTML: function() {
-    var sectionHTML = document.createElement('section');
-    document.body.appendChild(sectionHTML);
-    var h1HTML = document.createElement('h1');
-    h1HTML.innerText = this.name;
-    sectionHTML.appendChild(h1HTML);
-    var ulHTML = document.createElement('ul');
-    for (var i = 0; i < hours.length; i++) {
-      var li = document.createElement('li');
-      li.innerText = hours[i] + ': ' + this.calculator(i) + ' cookies';
-      ulHTML.appendChild(li);
-    }
-    var totalSales = 0;
-    for (i = 0; i < this.sales.length; i++) {
-      totalSales += this.sales[i];
-    }
-    li.innerText = 'Total Sales: ' + totalSales + ' cookies';
-    ulHTML.appendChild(li);
-    sectionHTML.appendChild(ulHTML);
-  }
-};
-var seaTacAirport = {
-  // MIN CUST= 3
-  //MAX CUST= 24
-  //AVG COOKIE= 1.2
-  name: 'SeaTac Airport',
-  minCust: 3,
-  maxCust: 24,
-  avgCookies: 1.2,
-  sales: [],
-  calculator: function(i){
-    this.sales[i]= Math.floor((Math.random() * (this.maxCust - this.minCust) + this.minCust) * this.avgCookies);
-    return this.sales[i];
-  },
-  renderHTML: function() {
-    var sectionHTML = document.createElement('section');
-    document.body.appendChild(sectionHTML);
-    var h1HTML = document.createElement('h1');
-    h1HTML.innerText = this.name;
-    sectionHTML.appendChild(h1HTML);
-    var ulHTML = document.createElement('ul');
-    for (var i = 0; i < hours.length; i++) {
-      var li = document.createElement('li');
-      li.innerText = hours[i] + ': ' + this.calculator(i) + ' cookies';
-      ulHTML.appendChild(li);
-    }
-    var totalSales = 0;
-    for (i = 0; i < this.sales.length; i++) {
-      totalSales += this.sales[i];
-    }
-    li.innerText = 'Total Sales: ' + totalSales + ' cookies';
-    ulHTML.appendChild(li);
-    sectionHTML.appendChild(ulHTML);
-  }
-};
-
-var seattleCenter = {
-  // MIN CUST= 11
-  //MAX CUST= 38
-  //AVG COOKIE= 3.7
-  name: 'Seattle Center',
-  minCust: 11,
-  maxCust: 38,
-  avgCookies: 3.7,
-  sales: [],
-  calculator: function(i){
-    this.sales[i]= Math.floor((Math.random() * (this.maxCust - this.minCust) + this.minCust) * this.avgCookies);
-    return this.sales[i];
-  },
-  renderHTML: function() {
-    var sectionHTML = document.createElement('section');
-    document.body.appendChild(sectionHTML);
-    var h1HTML = document.createElement('h1');
-    h1HTML.innerText = this.name;
-    sectionHTML.appendChild(h1HTML);
-    var ulHTML = document.createElement('ul');
-    for (var i = 0; i < hours.length; i++) {
-      var li = document.createElement('li');
-      li.innerText = hours[i] + ': ' + this.calculator(i) + ' cookies';
-      ulHTML.appendChild(li);
-    }
-    var totalSales = 0;
-    for (i = 0; i < this.sales.length; i++) {
-      totalSales += this.sales[i];
-    }
-    li.innerText = 'Total Sales: ' + totalSales + ' cookies';
-    ulHTML.appendChild(li);
-    sectionHTML.appendChild(ulHTML);
-  }
-};
-
-var capitolHill = {
-  // MIN CUST= 20
-  //MAX CUST= 38
-  //AVG COOKIE= 2.3
-  name: 'Capitol Hill',
-  minCust: 20,
-  maxCust: 38,
-  avgCookies: 2.3,
-  sales: [],
-  calculator: function(i){
-    this.sales[i]= Math.floor((Math.random() * (this.maxCust - this.minCust) + this.minCust) * this.avgCookies);
-    return this.sales[i];
-  },
-  renderHTML: function() {
-    var sectionHTML = document.createElement('section');
-    document.body.appendChild(sectionHTML);
-    var h1HTML = document.createElement('h1');
-    h1HTML.innerText = this.name;
-    sectionHTML.appendChild(h1HTML);
-    var ulHTML = document.createElement('ul');
-    for (var i = 0; i < hours.length; i++) {
-      var li = document.createElement('li');
-      li.innerText = hours[i] + ': ' + this.calculator(i) + ' cookies';
-      ulHTML.appendChild(li);
-    }
-    var totalSales = 0;
-    for (i = 0; i < this.sales.length; i++) {
-      totalSales += this.sales[i];
-    }
-    li.innerText = 'Total Sales: ' + totalSales + ' cookies';
-    ulHTML.appendChild(li);
-    sectionHTML.appendChild(ulHTML);
-  }
-};
-var alki = {
-  // MIN CUST= 2
-  //MAX CUST= 16
-  //AVG COOKIE= 4.6
-  name: 'alki',
-  minCust: 2,
-  maxCust: 16,
-  avgCookies: 4.6,
-  sales: [],
-  calculator: function(i){
-    this.sales[i]= Math.floor((Math.random() * (this.maxCust - this.minCust) + this.minCust) * this.avgCookies);
-    return this.sales[i];
-  },
-  renderHTML: function() {
-    var sectionHTML = document.createElement('section');
-    document.body.appendChild(sectionHTML);
-    var h1HTML = document.createElement('h1');
-    h1HTML.innerText = this.name;
-    sectionHTML.appendChild(h1HTML);
-    var ulHTML = document.createElement('ul');
-    for (var i = 0; i < hours.length; i++) {
-      var li = document.createElement('li');
-      li.innerText = hours[i] + ': ' + this.calculator(i) + ' cookies';
-      ulHTML.appendChild(li);
-    }
-    var totalSales = 0;
-    for (i = 0; i < this.sales.length; i++) {
-      totalSales += this.sales[i];
-    }
-    li.innerText = 'Total Sales: ' + totalSales + ' cookies';
-    ulHTML.appendChild(li);
-    sectionHTML.appendChild(ulHTML);
-  }
-};
-firstAndPike.calculator();
-firstAndPike.renderHTML();
-seaTacAirport.calculator();
-seaTacAirport.renderHTML();
-seattleCenter.calculator();
-seattleCenter.renderHTML();
-capitolHill.calculator();
-capitolHill.renderHTML();
-alki.calculator();
-alki.renderHTML();
+firstAndPike;
+seaTac;
+seattleCenter;
+capitolHill;
+alki;
+// 1st and Pike    |      23    |     65     |        6.3
+// SeaTac Airport  |      3     |     24     |        1.2
+// Seattle Center  |      11    |     38     |        3.7
+// Capitol Hill    |      20    |     38     |        2.3
+// Alki            |      2     |     16     |        4.6
