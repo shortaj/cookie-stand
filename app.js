@@ -21,15 +21,47 @@ These numbers are simply Pat's estimates for now, but eventually, once there has
 // To do this we must Document.create tag the body, h1, ul, and li. Fill each one with data as we go. Then append them to the Document in their proper locations.
 //-----------------------------------------------------------------------------------------------------------------
 //
-// var sectionHTML = document.createElement('section');
-// var h1HTML = document.createElement('h1');
-// var ulHTML = document.createElement('ul');
-// var liHTML = document.createElement('li');
 //
 var hours = ['6am', '7am', '8am', '9am', '10am', '11am', '12pm', '1pm', '2pm', '3pm', '4pm', '5pm', '6pm', '7pm', '8pm'];
 var table = document.createElement('table');
 var tr = document.createElement('tr');
-// var td = document.createElement('td');
+var forms = document.createElement('form');
+document.body.appendChild(forms);
+// var input = document.createElement('input');
+var br = document.createElement('br');
+
+var inputConstructor = function(itype, iname, value){
+  var input = document.createElement('input');
+  input.setAttribute('type', itype);
+  input.setAttribute('name', iname);
+  input.setAttribute('value', value);
+  forms.appendChild(input);
+  var p = document.createElement('p');
+  forms.appendChild(p);
+}
+
+function brRender(labelText) {
+  var label = document.createElement('label');
+  label.innerText = labelText;
+  forms.appendChild(label);
+  br = document.createElement('br');
+  forms.appendChild(br);
+}
+
+brRender('Store Name:');
+inputConstructor('text', 'storename', 'Write your Store Name here.');
+brRender('Minimum Customers:');
+inputConstructor('text', 'mincust', 'Write the Minimum Number of Customers.');
+brRender('Maximum Customers:');
+inputConstructor('text', 'maxcust', 'Write the Maximum Number of Customers.');
+brRender('Average Cookie Sales:');
+inputConstructor('text', 'avgcookies', 'Write the Average Cookie Sales.');
+
+// var inputLocation;
+// var inputMinCust;
+// var inputMaxCust;
+// var inputAvgCookies;
+var allStores = [];
 function tableCreator () {
   document.body.appendChild(table);
   table.appendChild(tr);
@@ -73,10 +105,43 @@ function Store(name, minCust, maxCust, avgCookies) {
     td.innerText = totalSales + ' cookies';
     tr.appendChild(td);
     table.appendChild(tr);
+  };
+  this.storeArray= function() {
+    allStores.push(this);
   }
+  this.storeArray();
   this.calculator();
   this.renderHTML();
 }
+var hourlyTotals = function() {
+  var tr = document.createElement('tr');
+  var td = document.createElement('td');
+  td.innerText = 'Hourly Totals';
+  table.appendChild(tr);
+  tr.appendChild(td);
+  for (var i = 0; i < hours.length; i++) {
+    var td = document.createElement('td');
+    td.innerText = hourCalc(i);
+    tr.appendChild(td);
+  }
+}
+var hourCalc = function (i) {
+  var total = 0;
+  for(var j = 0; j <allStores.length; j++) {
+    total += allStores[j].sales[i];
+  }
+  return total;
+}
+var grandTotal = function () {
+  var td = document.createElement('td');
+  var gtotal = 0;
+  for(var i = 0; i < hours.length; i++) {
+    gtotal += hourCalc(i);
+  }
+  td.innerText = gtotal;
+  tr.appendChild(td);
+}
+
 var firstAndPike = new Store('1st and Pike', 23, 65, 6.3);
 var seaTac = new Store('SeaTac Airport', 3, 24, 1.2);
 var seattleCenter = new Store('Seattle Center', 11, 38, 3.7);
@@ -88,8 +153,5 @@ seaTac;
 seattleCenter;
 capitolHill;
 alki;
-// 1st and Pike    |      23    |     65     |        6.3
-// SeaTac Airport  |      3     |     24     |        1.2
-// Seattle Center  |      11    |     38     |        3.7
-// Capitol Hill    |      20    |     38     |        2.3
-// Alki            |      2     |     16     |        4.6
+hourlyTotals();
+grandTotal();
