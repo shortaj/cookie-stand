@@ -1,6 +1,5 @@
 'use strict'
 
-var hourCalcArray = [];
 var allStores = [];
 var hours = ['6am', '7am', '8am', '9am', '10am', '11am', '12pm', '1pm', '2pm', '3pm', '4pm', '5pm', '6pm', '7pm', '8pm'];
 var table = document.createElement('table');
@@ -65,7 +64,8 @@ btn.addEventListener('click', function(){
     var userStore = new Store(inputName.value, (parseInt(inputMini.value)), (parseInt(inputMax.value)), (parseFloat(inputAvg.value)));
     clearValues();
     userStore;
-
+    document.getElementById('lastTable').deleteRow(0);
+    hourlyTotals();
   }
 });
 function clearValues() {
@@ -139,7 +139,6 @@ function hourlyTotals() {
   tr.appendChild(td);
   for (var i = 0; i < hours.length; i++) {
     var td = document.createElement('td');
-    hourCalcArray[i] = td.setAttribute('id', i);
     td.innerText = hourCalc(i);
     tr.appendChild(td);
   }
