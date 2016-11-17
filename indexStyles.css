@@ -1,0 +1,39 @@
+body {
+  font-family: sans-serif;
+  text-align: center;
+  background-color: #fca87e;
+  width: 80%;
+  margin: auto;
+}
+h1 {
+  font-size: 3em;
+  font-weight: bold;
+}
+header {
+  margin: 5%;
+}
+hr {
+  width: 80%;
+}
+section {
+  margin: 3%;
+}
+
+h2 {
+  font-size: 2em;
+  font-weight: bold;
+}
+ul {
+  margin: 1%;
+  text-align: left;
+}
+.quotes {
+  font-size: 0.9em;
+  font-style: italic;
+  padding: 1%;
+}
+a {
+  position: fixed;
+  top: 5%;
+  left: 5%;
+}
